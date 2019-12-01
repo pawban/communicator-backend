@@ -1,5 +1,6 @@
 package com.pawban.communicator.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "`User`")
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
 public class User {
@@ -33,6 +35,10 @@ public class User {
     @NotNull
     @Column(length = 7)
     private UserStatus status;
+
+    @NotNull
+    @Column(length = 36)
+    private UUID sessionId;
 
     @NotNull
     @Builder.Default

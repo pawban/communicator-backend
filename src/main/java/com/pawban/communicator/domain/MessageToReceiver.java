@@ -1,5 +1,6 @@
 package com.pawban.communicator.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
 public class MessageToReceiver {
@@ -24,7 +26,7 @@ public class MessageToReceiver {
 
     @NotNull
     @Builder.Default
-    private Boolean delivered;
+    private Boolean delivered = false;
 
     @NotNull
     @ManyToOne
