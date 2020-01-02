@@ -1,5 +1,6 @@
 package com.pawban.communicator.domain;
 
+import com.pawban.communicator.type.AccessRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -7,46 +8,36 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+@Builder
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Message {
+public class AccessRequest {
 
     @Id
     @GeneratedValue
     private UUID id;
 
     @NotNull
-    @Column(length = 2000)
-    private String text;
-
-    @NotNull
-    private LocalDateTime creationTime;
-
-    @NotNull
     @ManyToOne
     @JoinColumn(
             name = "sender_id",
-            foreignKey = @ForeignKey(name = "message_fkey_user")
+            foreignKey = @ForeignKey(name = "access_request_fkey_sender")
     )
     private CommunicatorUser sender;
 
@@ -54,17 +45,21 @@ public class Message {
     @ManyToOne
     @JoinColumn(
             name = "chat_room_id",
-            foreignKey = @ForeignKey(name = "message_fkey_chat_room")
+            foreignKey = @ForeignKey(name = "access_request_fkey_chat_room")
     )
     private ChatRoom chatRoom;
 
-    @Builder.Default
-    @OneToMany(
-            mappedBy = "message",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<RecipientMessage> recipientMessages = new ArrayList<>();
+    @NotNull
+    @Column(length = 2000)
+    private String request;
 
+    @NotNull
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private AccessRequestStatus status = AccessRequestStatus.PENDING;
+
+    @NotNull
+    @Builder.Default
+    private boolean delivered = false;
 
 }

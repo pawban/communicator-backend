@@ -2,10 +2,13 @@ package com.pawban.communicator.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,7 +21,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Getter
-public class MessageToReceiver {
+@Setter
+@EqualsAndHashCode
+public class RecipientMessage {
 
     @Id
     @GeneratedValue
@@ -30,12 +35,18 @@ public class MessageToReceiver {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "message_id")
+    @JoinColumn(
+            name = "message_id",
+            foreignKey = @ForeignKey(name = "recipient_message_fkey_message")
+    )
     private Message message;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
+    @JoinColumn(
+            name = "recipient_id",
+            foreignKey = @ForeignKey(name = "recipient_message_fkey_user")
+    )
+    private CommunicatorUser recipient;
 
 }
