@@ -1,7 +1,6 @@
 package com.pawban.communicator.controller;
 
-import com.pawban.communicator.dto.UsernameValidationDto;
-import com.pawban.communicator.service.UserService;
+import com.pawban.communicator.service.CommunicatorUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +16,21 @@ public class RpcController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcController.class);
 
-    private final UserService userService;
+    private final CommunicatorUserService userService;
 
     @Autowired
-    public RpcController(final UserService userService) {
+    public RpcController(final CommunicatorUserService userService) {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/isUsernameAvailable", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UsernameValidationDto isUsernameAvailable(@RequestBody UsernameValidationDto usernameValidationDto) {
+    @PostMapping(
+            path = "/isUsernameAvailable",
+            consumes = MediaType.TEXT_PLAIN_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Boolean isUsernameAvailable(@RequestBody String username) {
         LOGGER.info("POST:/v1/rpc/isUsernameAvailable");
-        if (usernameValidationDto.getUsername().equals("gawelx")) {
-            usernameValidationDto.setAvailable(false);
-        } else {
-            usernameValidationDto.setAvailable(true);
-        }
-        return usernameValidationDto;
+        return userService.isUsernameAvailable(username);
     }
 
 }
