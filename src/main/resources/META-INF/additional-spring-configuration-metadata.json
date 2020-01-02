@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "communicator.app.restricted.usernames",
+      "type": "java.lang.String",
+      "description": "Usernames, that can not bu used by the users."
+    }
+  ]
+}
