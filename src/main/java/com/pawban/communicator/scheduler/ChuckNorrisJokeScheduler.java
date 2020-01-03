@@ -11,6 +11,7 @@ import com.pawban.communicator.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ChuckNorrisJokeScheduler {
         this.chuckNorrisClient = chuckNorrisClient;
     }
 
-    //    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void sendChuckNorrisJoke() {
         JokeDto joke = chuckNorrisClient.getRandomJoke().orElseThrow(
                 () -> new NotFoundException("Chuck Norris roundhouse kicked me and I can't get any joke.")
