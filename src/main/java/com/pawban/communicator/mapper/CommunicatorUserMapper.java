@@ -32,7 +32,6 @@ public class CommunicatorUserMapper {
                 .id(userDto.getId())
                 .username(userDto.getUsername())
                 .countryCode(userDto.getCountry().getCountryCode())
-                .sessionId(UUID.randomUUID())
                 .visible(userDto.isVisible())
                 .build();
     }

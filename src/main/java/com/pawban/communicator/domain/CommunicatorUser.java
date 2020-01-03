@@ -60,7 +60,8 @@ public class CommunicatorUser {
     private boolean visible = true;
 
     @NotNull
-    private UUID sessionId;
+    @Builder.Default
+    private UUID sessionId = UUID.randomUUID();
 
     @NotNull
     @Builder.Default
