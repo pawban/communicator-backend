@@ -57,7 +57,7 @@ public class CommunicatorUser {
 
     @NotNull
     @Builder.Default
-    private boolean visible = Boolean.TRUE;
+    private boolean visible = true;
 
     @NotNull
     private UUID sessionId;
