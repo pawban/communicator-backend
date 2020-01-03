@@ -24,7 +24,6 @@ public class ChatRoomMapper {
         return ChatRoom.builder()
                 .name(chatRoomDto.getName())
                 .status(chatRoomDto.getStatus())
-                .members(new HashSet<>())
                 .build();
     }
 

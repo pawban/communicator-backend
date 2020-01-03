@@ -58,6 +58,7 @@ public class ChatRoom {
     )
     private CommunicatorUser owner;
 
+    @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "chat_room_members",
@@ -70,7 +71,7 @@ public class ChatRoom {
                     foreignKey = @ForeignKey(name = "chat_room_members_fkey_user")
             )}
     )
-    private Set<CommunicatorUser> members;
+    private Set<CommunicatorUser> members = new HashSet<>();
 
     @Builder.Default
     @OneToMany(
