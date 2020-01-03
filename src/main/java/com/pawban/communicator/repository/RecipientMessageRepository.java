@@ -16,8 +16,12 @@ public interface RecipientMessageRepository extends CrudRepository<RecipientMess
 
     List<RecipientMessage> findAllByDeliveredIsFalseAndRecipientIdOrderByMessageCreationTimeAsc(UUID recipientId);
 
-    List<RecipientMessage> findAllByRecipientIdAndMessageChatRoomIdOrderByMessageCreationTimeAsc(UUID recipientId, UUID chatRoomId);
+    List<RecipientMessage> findAllByRecipientIdAndMessageChatRoomIdOrderByMessageCreationTimeAsc(UUID recipientId,
+                                                                                                 UUID chatRoomId);
 
-    List<RecipientMessage> findAllByDeliveredIsFalseAndRecipientIdAndMessageChatRoomIdOrderByMessageCreationTimeAsc(UUID recipientId, UUID chatRoomId);
+    List<RecipientMessage> findAllByDeliveredIsFalseAndRecipientIdAndMessageChatRoomIdOrderByMessageCreationTimeAsc(
+            UUID recipientId,
+            UUID chatRoomId
+    );
 
 }
