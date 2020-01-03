@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,5 +20,7 @@ public interface AccessRequestRepository extends CrudRepository<AccessRequest, U
     Set<AccessRequest> findAllBySenderIdAndDeliveredFalseAndStatusNot(UUID senderId, AccessRequestStatus status);
 
     boolean existsBySenderIdAndChatRoomIdAndStatus(UUID senderId, UUID chatRoomId, AccessRequestStatus status);
+
+    Set<AccessRequest> findAllByStatusAndCreationTimeIsBefore(AccessRequestStatus status, LocalDateTime time);
 
 }

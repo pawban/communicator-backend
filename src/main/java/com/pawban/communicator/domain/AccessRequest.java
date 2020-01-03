@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -61,5 +62,9 @@ public class AccessRequest {
     @NotNull
     @Builder.Default
     private boolean delivered = false;
+
+    @NotNull
+    @Builder.Default
+    private LocalDateTime creationTime = LocalDateTime.now();
 
 }

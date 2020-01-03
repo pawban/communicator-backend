@@ -10,6 +10,7 @@ import com.pawban.communicator.type.AccessRequestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,6 +18,8 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class AccessRequestService {
+
+    public static final Long EXPIRATION_PERIOD = 10L;
 
     private final AccessRequestRepository accessRequestRepository;
     private final ChatRoomRepository chatRoomRepository;
@@ -82,6 +85,19 @@ public class AccessRequestService {
     public boolean isChatRoomOwner(final UUID userId,
                                    final AccessRequest accessRequest) {
         return accessRequest.getChatRoom().getOwner().getId().equals(userId);
+    }
+
+    public int rejectExpiredAccessRequests() {
+        Set<AccessRequest> accessRequests = accessRequestRepository.findAllByStatusAndCreationTimeIsBefore(
+                AccessRequestStatus.PENDING,
+                LocalDateTime.now().minusMinutes(EXPIRATION_PERIOD)
+        );
+        accessRequests.forEach(accessRequest -> {
+            accessRequest.setStatus(AccessRequestStatus.REJECTED);
+            accessRequest.setDelivered(false);
+        });
+        accessRequestRepository.saveAll(accessRequests);
+        return accessRequests.size();
     }
 
 }
