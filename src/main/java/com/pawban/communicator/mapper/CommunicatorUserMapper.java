@@ -29,7 +29,6 @@ public class CommunicatorUserMapper {
 
     public CommunicatorUser mapToUser(final CommunicatorUserDto userDto) {
         return CommunicatorUser.builder()
-                .id(userDto.getId())
                 .username(userDto.getUsername())
                 .countryCode(userDto.getCountry().getCountryCode())
                 .visible(userDto.isVisible())
