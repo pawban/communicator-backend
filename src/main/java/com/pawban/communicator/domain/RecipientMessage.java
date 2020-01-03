@@ -31,7 +31,7 @@ public class RecipientMessage {
 
     @NotNull
     @Builder.Default
-    private Boolean delivered = false;
+    private boolean delivered = false;
 
     @NotNull
     @ManyToOne
