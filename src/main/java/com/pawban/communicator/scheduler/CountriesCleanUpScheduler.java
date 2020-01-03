@@ -5,6 +5,7 @@ import com.pawban.communicator.service.CommunicatorUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +23,7 @@ public class CountriesCleanUpScheduler {
         this.countriesClient = countriesClient;
     }
 
-    //    @Scheduled(cron = "0 30 0 * * *")
+    @Scheduled(cron = "0 30 0 * * *")
     public void removeUnusedCountries() {
         LOGGER.info("Cleaning unused countries from pool has started.");
         countriesClient.releaseUnusedCountries(userService.getCountryCodesInUse());
