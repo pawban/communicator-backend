@@ -14,10 +14,10 @@ import java.util.UUID;
 @Repository
 public interface AccessRequestRepository extends CrudRepository<AccessRequest, UUID> {
 
-    Set<AccessRequest> findAllByChatRoomOwnerIdAndDeliveredFalseAndStatus(UUID chatRoomOwnerId,
-                                                                          AccessRequestStatus status);
+    Set<AccessRequest> findAllByChatRoomOwnerIdAndDeliveredIsFalseAndStatus(UUID chatRoomOwnerId,
+                                                                            AccessRequestStatus status);
 
-    Set<AccessRequest> findAllBySenderIdAndDeliveredFalseAndStatusNot(UUID senderId, AccessRequestStatus status);
+    Set<AccessRequest> findAllBySenderIdAndDeliveredIsFalseAndStatusIsNot(UUID senderId, AccessRequestStatus status);
 
     boolean existsBySenderIdAndChatRoomIdAndStatus(UUID senderId, UUID chatRoomId, AccessRequestStatus status);
 

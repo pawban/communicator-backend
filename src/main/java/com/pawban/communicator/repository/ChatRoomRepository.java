@@ -19,7 +19,7 @@ public interface ChatRoomRepository extends CrudRepository<ChatRoom, UUID> {
     @Query("select distinct cr from ChatRoom cr join cr.members u " +
             "where cr.status = :status or u.sessionId = :currentSessionId " +
             "order by cr.name asc")
-    List<ChatRoom> findAllByStatusOrMembershipOrderByName(ChatRoomStatus status, UUID currentSessionId);
+    List<ChatRoom> findAllByStatusOrMembershipOrderByNameAsc(ChatRoomStatus status, UUID currentSessionId);
 
     Set<ChatRoom> findAllByMembersContaining(CommunicatorUser user);
 

@@ -17,21 +17,21 @@ import java.util.UUID;
 @Repository
 public interface CommunicatorUserRepository extends CrudRepository<CommunicatorUser, UUID> {
 
-    List<CommunicatorUser> findAllByStatusAndVisibleAndValidUntilAfterOrSessionIdOrderByUsername(
+    List<CommunicatorUser> findAllByStatusAndVisibleAndValidUntilAfterOrSessionIdOrderByUsernameAsc(
             UserStatus status, boolean visible, LocalDateTime time, UUID sessionId);
 
     boolean existsBySessionIdAndStatusIsNotAndValidUntilIsAfter(UUID sessionId, UserStatus status, LocalDateTime time);
 
     Optional<CommunicatorUser> findBySessionId(UUID sessionId);
 
-    boolean existsByUsernameAndStatusNot(String username, UserStatus status);
+    boolean existsByUsernameAndStatusIsNot(String username, UserStatus status);
 
     @Query("select u from CommunicatorUser u where u.id in " +
             "(select m.id from ChatRoom cr join cr.members m where cr.id = :chatRoomId) " +
             "or u.id in " +
             "(select u1.id from CommunicatorUser u1 where u1.visible = :visible)" +
             "order by u.username asc")
-    List<CommunicatorUser> findAllByChatRoomIdOrVisibleWithPotentialMembersOrderByUsername(UUID chatRoomId, boolean visible);
+    List<CommunicatorUser> findAllByChatRoomIdOrVisibleWithPotentialMembersOrderByUsernameAsc(UUID chatRoomId, boolean visible);
 
     //    @Query("select u from CommunicatorUser u where u.id in " +
 //            "(select m.id from ChatRoom cr join cr.members m where cr.id = :chatRoomId) " +
@@ -39,12 +39,12 @@ public interface CommunicatorUserRepository extends CrudRepository<CommunicatorU
     @Query("select u from ChatRoom cr join cr.members u " +
             "where cr.id = :chatRoomId " +
             "order by u.username asc")
-    List<CommunicatorUser> findByChatRoomIdOrderByUsername(UUID chatRoomId);
+    List<CommunicatorUser> findByChatRoomIdOrderByUsernameAsc(UUID chatRoomId);
 
     Optional<CommunicatorUser> findByUsername(String username);
 
-    Set<CommunicatorUser> findAllByStatusAndValidUntilBefore(UserStatus status, LocalDateTime dateTime);
+    Set<CommunicatorUser> findAllByStatusAndValidUntilIsBefore(UserStatus status, LocalDateTime dateTime);
 
-    Set<CommunicatorUser> findAllByStatusAndValidUntilAfter(UserStatus status, LocalDateTime dateTime);
+    Set<CommunicatorUser> findAllByStatusAndValidUntilIsAfter(UserStatus status, LocalDateTime dateTime);
 
 }

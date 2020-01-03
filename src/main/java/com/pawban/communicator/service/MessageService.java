@@ -46,7 +46,7 @@ public class MessageService {
         List<RecipientMessage> recipientMessages;
         if (undeliveredOnly) {
             recipientMessages = recipientMessageRepository
-                    .findAllByDeliveredFalseAndRecipientIdOrderByMessageCreationTimeAsc(recipientId);
+                    .findAllByDeliveredIsFalseAndRecipientIdOrderByMessageCreationTimeAsc(recipientId);
         } else {
             recipientMessages = recipientMessageRepository
                     .findAllByRecipientIdOrderByMessageCreationTimeAsc(recipientId);
@@ -71,7 +71,7 @@ public class MessageService {
         List<RecipientMessage> recipientMessages;
         if (undeliveredOnly) {
             recipientMessages = recipientMessageRepository
-                    .findAllByDeliveredFalseAndRecipientIdAndMessageChatRoomIdOrderByMessageCreationTimeAsc(
+                    .findAllByDeliveredIsFalseAndRecipientIdAndMessageChatRoomIdOrderByMessageCreationTimeAsc(
                             recipientId,
                             chatRoomId
                     );

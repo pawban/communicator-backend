@@ -116,14 +116,14 @@ public class ChatRoomService {
     }
 
     public List<ChatRoom> getAvailableChatRooms(final UUID sessionId) {
-        return chatRoomRepository.findAllByStatusOrMembershipOrderByName(ChatRoomStatus.PUBLIC, sessionId);
+        return chatRoomRepository.findAllByStatusOrMembershipOrderByNameAsc(ChatRoomStatus.PUBLIC, sessionId);
     }
 
     public List<CommunicatorUser> getUsersFromChatRoomWithPotentialMembers(final UUID chatRoomId,
                                                                            final UUID currentUserId) {
         ChatRoom chatRoom = getChatRoom(chatRoomId);
         if (isMemberOfChatRoom(currentUserId, chatRoom)) {
-            return userRepository.findAllByChatRoomIdOrVisibleWithPotentialMembersOrderByUsername(chatRoomId, true);
+            return userRepository.findAllByChatRoomIdOrVisibleWithPotentialMembersOrderByUsernameAsc(chatRoomId, true);
         }
         throw new IllegalOperationException("Only members of the chat room can retrieve chat room members list with " +
                 "potential (possible to add to members) members.");
@@ -139,7 +139,7 @@ public class ChatRoomService {
                                                        final UUID currentUserId) {
         ChatRoom chatRoom = getChatRoom(chatRoomId);
         if (isMemberOfChatRoom(currentUserId, chatRoom)) {
-            return userRepository.findByChatRoomIdOrderByUsername(chatRoomId);
+            return userRepository.findByChatRoomIdOrderByUsernameAsc(chatRoomId);
         }
         throw new IllegalOperationException("Only members of the chat room can retrieve chat room members list.");
     }

@@ -56,7 +56,7 @@ public class AccessRequestService {
 
     public Set<AccessRequest> getChatRoomOwnerUnprocessedAccessRequests(final UUID chatRoomOwnerId) {
         Set<AccessRequest> accessRequests = accessRequestRepository
-                .findAllByChatRoomOwnerIdAndDeliveredFalseAndStatus(chatRoomOwnerId, AccessRequestStatus.PENDING);
+                .findAllByChatRoomOwnerIdAndDeliveredIsFalseAndStatus(chatRoomOwnerId, AccessRequestStatus.PENDING);
         accessRequests.forEach(accessRequest -> accessRequest.setDelivered(true));
         return StreamSupport.stream(accessRequestRepository.saveAll(accessRequests).spliterator(), false)
                 .collect(Collectors.toSet());
@@ -76,7 +76,7 @@ public class AccessRequestService {
 
     public Set<AccessRequest> getSenderProcessedAccessRequests(final UUID senderId) {
         Set<AccessRequest> accessRequests = accessRequestRepository
-                .findAllBySenderIdAndDeliveredFalseAndStatusNot(senderId, AccessRequestStatus.PENDING);
+                .findAllBySenderIdAndDeliveredIsFalseAndStatusIsNot(senderId, AccessRequestStatus.PENDING);
         accessRequests.forEach(accessRequest -> accessRequest.setDelivered(true));
         return StreamSupport.stream(accessRequestRepository.saveAll(accessRequests).spliterator(), false)
                 .collect(Collectors.toSet());

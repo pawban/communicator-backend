@@ -39,7 +39,7 @@ public class CommunicatorUserService {
     }
 
     public List<CommunicatorUser> getVisibleUsersWithCurrentUser(final UUID currentSessionId) {
-        return userRepository.findAllByStatusAndVisibleAndValidUntilAfterOrSessionIdOrderByUsername(
+        return userRepository.findAllByStatusAndVisibleAndValidUntilAfterOrSessionIdOrderByUsernameAsc(
                 UserStatus.ACTIVE,
                 true,
                 LocalDateTime.now(),
@@ -75,7 +75,7 @@ public class CommunicatorUserService {
     }
 
     public Boolean isUsernameAvailable(final String username) {
-        return !userRepository.existsByUsernameAndStatusNot(username, UserStatus.DELETED)
+        return !userRepository.existsByUsernameAndStatusIsNot(username, UserStatus.DELETED)
                 && !configuration.getRestrictedUserNames().contains(username);
     }
 
@@ -99,7 +99,7 @@ public class CommunicatorUserService {
     }
 
     public int deactivateExpiredUsers() {
-        Set<CommunicatorUser> expiredUsers = userRepository.findAllByStatusAndValidUntilBefore(
+        Set<CommunicatorUser> expiredUsers = userRepository.findAllByStatusAndValidUntilIsBefore(
                 UserStatus.ACTIVE,
                 LocalDateTime.now()
         );
@@ -119,7 +119,7 @@ public class CommunicatorUserService {
     }
 
     public Set<String> getCountryCodesInUse() {
-        return userRepository.findAllByStatusAndValidUntilAfter(UserStatus.ACTIVE, LocalDateTime.now()).stream()
+        return userRepository.findAllByStatusAndValidUntilIsAfter(UserStatus.ACTIVE, LocalDateTime.now()).stream()
                 .map(CommunicatorUser::getCountryCode)
                 .collect(Collectors.toSet());
     }
