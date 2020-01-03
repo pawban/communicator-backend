@@ -49,34 +49,33 @@ public class CountriesClient {
     }
 
     public Optional<CountryDto> getCountry(final String countryCode) {
-        CountryDto localCountry = countryPool.getCountry(countryCode);
-        if (localCountry != null) {
-            return Optional.of(localCountry);
+        if (countryExists(countryCode)) {
+            return Optional.of(countryPool.getCountry(countryCode));
         }
-        CountryDto externalCountry = getCountryFromExternalSource(countryCode);
-        if (externalCountry != null) {
-            countryPool.addCountry(externalCountry);
-        }
-        return Optional.ofNullable(externalCountry);
+        return Optional.empty();
     }
 
-    private CountryDto getCountryFromExternalSource(final String countryCode) {
+    public boolean countryExists(final String countryCode) {
+        return countryPool.contains(countryCode) || existsCountryInExternalSource(countryCode);
+    }
+
+    private boolean existsCountryInExternalSource(final String countryCode) {
         String endpoint = address + "/alpha/" + countryCode;
         URI url = UriComponentsBuilder.fromHttpUrl(endpoint)
                 .queryParam("fields", fields)
                 .build(true)
                 .toUri();
         try {
-            CountryDto countriesResponse = restTemplate.getForObject(url, CountryDto.class);
-            return countriesResponse;
+            CountryDto countryResponse = restTemplate.getForObject(url, CountryDto.class);
+            if (countryResponse != null) {
+                countryPool.addCountry(countryResponse);
+                return true;
+            }
+            return false;
         } catch (RestClientException e) {
             LOGGER.error(e.getMessage(), e);
-            return null;
+            return false;
         }
-    }
-
-    public boolean countryExists(final String countryCode) {
-        return countryPool.contains(countryCode) || getCountryFromExternalSource(countryCode) != null;
     }
 
     public void releaseUnusedCountries(final Set<String> countryCodesInUse) {
