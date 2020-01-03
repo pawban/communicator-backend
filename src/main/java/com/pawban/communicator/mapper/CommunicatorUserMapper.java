@@ -41,6 +41,10 @@ public class CommunicatorUserMapper {
                 .collect(Collectors.toList());
     }
 
+    public SessionDto mapToSessionDto(final CommunicatorUser user) {
+        return new SessionDto(user.getSessionId(), mapToUserDto(user));
+    }
+
     public CommunicatorUserDto mapToUserDto(final CommunicatorUser user) {
         CountryDto countryDto = countriesClient.getCountry(user.getCountryCode()).orElseThrow(
                 () -> new NotFoundException("Country with code '" + user.getCountryCode() + "' hasn't been found.")
