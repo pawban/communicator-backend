@@ -5,7 +5,9 @@ This is application providing REST API for anonymous internet communicator.
 
 ### Instructions
 To run this app you have to provide PostgreSQL database to store data.
-Database url, username and login should be defined in system properties on server running this app. 
+Database url, username and login should be defined in system properties 
+(as JDBC_DATABASE_URL, JDBC_DATABASE_USERNAME, JDBC_DATABASE_PASSWORD) 
+on server running this app.
 
 ### Frontend
-[Git hub repository](https://github.com/pawban/communicator-frontend)
+[GitHub repository](https://github.com/pawban/communicator-frontend)
