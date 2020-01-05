@@ -2,9 +2,7 @@ package com.pawban.communicator.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
 public class CountryDto {
 
