@@ -29,7 +29,7 @@ public interface CommunicatorUserRepository extends CrudRepository<CommunicatorU
     @Query("select u from CommunicatorUser u where u.id in " +
             "(select m.id from ChatRoom cr join cr.members m where cr.id = :chatRoomId) " +
             "or u.id in " +
-            "(select u1.id from CommunicatorUser u1 where u1.visible = :visible)" +
+            "(select u1.id from CommunicatorUser u1 where u1.visible = :visible and u1.status = 'ACTIVE')" +
             "order by u.username asc")
     List<CommunicatorUser> findAllByChatRoomIdOrVisibleWithPotentialMembersOrderByUsernameAsc(UUID chatRoomId,
                                                                                               boolean visible);
