@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,12 +33,12 @@ public class ChatRoomMapper {
     }
 
     public ChatRoomDto mapToChatRoomDto(final ChatRoom chatRoom) {
-        return ChatRoomDto.builder()
-                .id(chatRoom.getId())
-                .name(chatRoom.getName())
-                .status(chatRoom.getStatus())
-                .owner(userMapper.mapToUserDto(chatRoom.getOwner()))
-                .build();
+        return new ChatRoomDto(
+                chatRoom.getId(),
+                chatRoom.getName(),
+                chatRoom.getStatus(),
+                userMapper.mapToUserDto(chatRoom.getOwner())
+        );
     }
 
 }

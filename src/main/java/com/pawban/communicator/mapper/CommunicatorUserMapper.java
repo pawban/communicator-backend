@@ -49,30 +49,27 @@ public class CommunicatorUserMapper {
         CountryDto countryDto = countriesClient.getCountry(user.getCountryCode()).orElseThrow(
                 () -> new NotFoundException("Country with code '" + user.getCountryCode() + "' hasn't been found.")
         );
-        return CommunicatorUserDto.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .country(countryDto)
-                .visible(user.isVisible())
-                .build();
-    }
-
-    public SessionDto mapToSessionDto(final CommunicatorUser user) {
-        return SessionDto.builder()
-                .userDto(mapToUserDto(user))
-                .sessionId(user.getSessionId())
-                .build();
+        return new CommunicatorUserDto(
+                user.getId(),
+                user.getUsername(),
+                countryDto,
+                user.isVisible()
+        );
     }
 
     public List<MemberDto> mapToMembersDtoList(final Collection<CommunicatorUser> users,
                                                final Map<UUID, MembershipRole> membershipRoleMap) {
         return users.stream()
-                .map(user -> MemberDto.builder()
-                        .user(mapToUserDto(user))
-                        .role(membershipRoleMap.getOrDefault(user.getId(), MembershipRole.OUTSIDER))
-                        .build()
+                .map(user -> mapToMemberDto(
+                        user,
+                        membershipRoleMap.getOrDefault(user.getId(), MembershipRole.OUTSIDER))
                 )
                 .collect(Collectors.toList());
+    }
+
+    public MemberDto mapToMemberDto(final CommunicatorUser user,
+                                    final MembershipRole role) {
+        return new MemberDto(mapToUserDto(user), role);
     }
 
 }

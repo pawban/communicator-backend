@@ -1,14 +1,12 @@
 package com.pawban.communicator.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
 @NoArgsConstructor
-@Builder
 @Getter
 public class JokeDto {
 

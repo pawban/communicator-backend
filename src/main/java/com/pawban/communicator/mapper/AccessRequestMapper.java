@@ -41,13 +41,13 @@ public class AccessRequestMapper {
     }
 
     public AccessRequestDto mapToAccessRequestDto(final AccessRequest accessRequest) {
-        return AccessRequestDto.builder()
-                .id(accessRequest.getId())
-                .sender(userMapper.mapToUserDto(accessRequest.getSender()))
-                .chatRoom(chatRoomMapper.mapToChatRoomDto(accessRequest.getChatRoom()))
-                .request(accessRequest.getRequest())
-                .status(accessRequest.getStatus())
-                .build();
+        return new AccessRequestDto(
+                accessRequest.getId(),
+                userMapper.mapToUserDto(accessRequest.getSender()),
+                chatRoomMapper.mapToChatRoomDto(accessRequest.getChatRoom()),
+                accessRequest.getRequest(),
+                accessRequest.getStatus()
+        );
     }
 
 }
